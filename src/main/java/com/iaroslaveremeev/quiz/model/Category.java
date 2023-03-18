@@ -6,9 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Category {
@@ -34,19 +31,6 @@ public class Category {
         }
     }
 
-    // Method to download the list of categories from the API
-    public List<Category> getCategories() throws IOException {
-        try (BufferedReader bufferedReader =
-                     new BufferedReader(new FileReader("https://opentdb.com/api_category.php"))) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(bufferedReader, new TypeReference<>() {
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public int getId() {
         return id;
     }
@@ -61,5 +45,18 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    // Method to download the list of categories from the API
+    public List<Category> getCategories() throws IOException {
+        try (BufferedReader bufferedReader =
+                     new BufferedReader(new FileReader("https://opentdb.com/api_category.php"))) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(bufferedReader, new TypeReference<>() {
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

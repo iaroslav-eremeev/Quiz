@@ -32,8 +32,8 @@ public class MainController {
 
     public void loadFromFile(ActionEvent actionEvent) throws BackingStoreException {
         FileChooser fileChooser = new FileChooser();
-        if (prefs.nodeExists("filePath")) {
-            fileChooser.setInitialDirectory(new File(prefs.get("filePath", "")));
+        if (prefs.nodeExists("dirPath")) {
+            fileChooser.setInitialDirectory(new File(prefs.get("dirPath", "")));
         } else {
             fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
         }
@@ -42,8 +42,8 @@ public class MainController {
         File file = fileChooser.showOpenDialog(null);
         try {
             if (file != null) {
-                prefs = Preferences.userRoot().node("filePath");
-                prefs.put("filePath", file.getAbsolutePath());
+                prefs = Preferences.userRoot().node("dirPath");
+                prefs.put("dirPath", file.getAbsolutePath());
                 Stage gameStage = Main.openWindow("/game.fxml");
                 if (gameStage != null) {
                     gameStage.show();
