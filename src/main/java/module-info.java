@@ -3,6 +3,7 @@ module com.iaroslaveremeev.quiz {
     requires javafx.fxml;
 
     requires org.kordamp.bootstrapfx.core;
+    requires java.prefs;
 
     opens com.iaroslaveremeev.quiz to javafx.fxml;
     exports com.iaroslaveremeev.quiz;
