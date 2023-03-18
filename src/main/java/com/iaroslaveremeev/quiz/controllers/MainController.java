@@ -8,6 +8,7 @@ import com.iaroslaveremeev.quiz.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -18,6 +19,8 @@ public class MainController {
     public Button loadFromFile;
     @FXML
     public Button loadFromInternet;
+    @FXML
+    public CheckBox showCorrectAnswers;
     public Preferences prefs;
 
     public void initialize() throws IOException {
