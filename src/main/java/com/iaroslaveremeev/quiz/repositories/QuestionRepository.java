@@ -1,6 +1,8 @@
 package com.iaroslaveremeev.quiz.repositories;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.iaroslaveremeev.quiz.dto.ResponseResult;
 import com.iaroslaveremeev.quiz.model.Question;
 import com.iaroslaveremeev.quiz.model.Quiz;
 
@@ -18,10 +20,17 @@ public class QuestionRepository {
     public void downloadQuestions(Quiz quiz) throws IOException {
         try (InputStream inputStream = getData("https://opentdb.com/api.php?" +
                 "&amount=" + quiz.getNumberOfQuestions() + "&category=" + quiz.getCategory().getName() +
-                "&difficulty=" + quiz.getDifficulty().name(), "GET"){
+                "&difficulty=" + quiz.getDifficulty().name(), "GET")){
             ObjectMapper objectMapper = new ObjectMapper();
-        };
-        this.questions = questions;
+            ResponseResult<List<Question>> responseResult = objectMapper.readValue(inputStream, new TypeReference<>() {
+            });
+            if (responseResult.getResponse_code() == 0){
+                this.questions = responseResult.getResults();
+            }
+            else {
+                throw new IOException("There are no questions from this category");
+            }
+        }
     }
 
     public static InputStream getData(String link, String method) {
