@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.util.List;
+import java.util.Objects;
 
 public class QuestionRepository {
     private List<Question> questions;
@@ -48,5 +49,27 @@ public class QuestionRepository {
         } catch (IOException ignored) {}
         return null;
     }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QuestionRepository that = (QuestionRepository) o;
+        return Objects.equals(questions, that.questions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(questions);
+    }
+
 
 }
