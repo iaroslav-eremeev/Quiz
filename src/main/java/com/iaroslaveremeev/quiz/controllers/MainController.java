@@ -7,6 +7,7 @@ import java.util.prefs.Preferences;
 import com.iaroslaveremeev.quiz.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.stage.FileChooser;
@@ -23,9 +24,10 @@ public class MainController {
     public CheckBox showCorrectAnswers;
     public Preferences prefs;
 
-    public void initialize() throws IOException {
+    public void initialize() {
+        prefs = Preferences.userRoot().node("dirPath");
+        prefs.put("dirPath", String.valueOf(new File(System.getProperty("user.dir"))));
     }
-
     @FXML
     public void loadFromInternet(ActionEvent actionEvent) throws IOException {
         Stage loadingStage = Main.openWindow("loading.fxml");
@@ -38,17 +40,12 @@ public class MainController {
 
     public void loadFromFile(ActionEvent actionEvent) throws BackingStoreException {
         FileChooser fileChooser = new FileChooser();
-        if (Preferences.userRoot().nodeExists("dirPath")) {
-            fileChooser.setInitialDirectory(new File(prefs.get("dirPath", "")));
-        } else {
-            fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
-        }
+        fileChooser.setInitialDirectory(new File(prefs.get("dirPath", "")));
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
                 "JSON and CSV files", "*.json", "*.JSON", "*.csv", "*.CSV"));
         File file = fileChooser.showOpenDialog(null);
         try {
             if (file != null) {
-                prefs = Preferences.userRoot().node("dirPath");
                 prefs.put("dirPath", file.getAbsolutePath());
                 Stage gameStage = Main.openWindow("game.fxml");
                 if (gameStage != null) {
@@ -56,6 +53,10 @@ public class MainController {
                     Stage close = (Stage) this.loadFromFile.getScene().getWindow();
                     close.close();
                 }
+            }
+            //TODO save current path from fileChooser
+            else {
+                prefs.put("dirPath", String.valueOf(fileChooser.getInitialDirectory()));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
