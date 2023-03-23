@@ -5,6 +5,7 @@ module com.iaroslaveremeev.quiz {
     requires org.kordamp.bootstrapfx.core;
     requires java.prefs;
     requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.core;
 
     opens com.iaroslaveremeev.quiz to javafx.fxml;
     exports com.iaroslaveremeev.quiz;

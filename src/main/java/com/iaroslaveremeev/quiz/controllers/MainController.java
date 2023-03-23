@@ -16,11 +16,8 @@ import javafx.stage.Stage;
 import java.io.File;
 
 public class MainController {
-    @FXML
-    public Button loadFromFile;
-    @FXML
-    public Button loadFromInternet;
-    @FXML
+    public Button fromFileButton;
+    public Button fromInternetButton;
     public CheckBox showCorrectAnswers;
     public Preferences prefs;
 
@@ -33,7 +30,7 @@ public class MainController {
         Stage loadingStage = Main.openWindow("loading.fxml");
         if (loadingStage != null) {
             loadingStage.show();
-            Stage close = (Stage) this.loadFromInternet.getScene().getWindow();
+            Stage close = (Stage) this.fromInternetButton.getScene().getWindow();
             close.close();
         }
     }
@@ -50,13 +47,9 @@ public class MainController {
                 Stage gameStage = Main.openWindow("game.fxml");
                 if (gameStage != null) {
                     gameStage.show();
-                    Stage close = (Stage) this.loadFromFile.getScene().getWindow();
+                    Stage close = (Stage) this.fromFileButton.getScene().getWindow();
                     close.close();
                 }
-            }
-            //TODO save current path from fileChooser
-            else {
-                prefs.put("dirPath", String.valueOf(fileChooser.getInitialDirectory()));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
