@@ -18,6 +18,8 @@ public class QuestionRepository {
     private List<Question> questions;
     public QuestionRepository() {
     }
+
+    // Method to download the list of questions from the API
     public void downloadQuestions(Quiz quiz) throws IOException {
         try (InputStream inputStream = getData("https://opentdb.com/api.php?" +
                 "&amount=" + quiz.getNumberOfQuestions() + "&category=" + quiz.getCategory().getName() +

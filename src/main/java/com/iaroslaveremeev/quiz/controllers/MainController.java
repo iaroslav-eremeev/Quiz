@@ -27,12 +27,18 @@ public class MainController {
     }
 
     @FXML
-    public void loadFromInternet(ActionEvent actionEvent) {
+    public void loadFromInternet(ActionEvent actionEvent) throws IOException {
+        Stage loadingStage = Main.openWindow("loading.fxml");
+        if (loadingStage != null) {
+            loadingStage.show();
+            Stage close = (Stage) this.loadFromInternet.getScene().getWindow();
+            close.close();
+        }
     }
 
     public void loadFromFile(ActionEvent actionEvent) throws BackingStoreException {
         FileChooser fileChooser = new FileChooser();
-        if (prefs.nodeExists("dirPath")) {
+        if (Preferences.userRoot().nodeExists("dirPath")) {
             fileChooser.setInitialDirectory(new File(prefs.get("dirPath", "")));
         } else {
             fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
@@ -44,7 +50,7 @@ public class MainController {
             if (file != null) {
                 prefs = Preferences.userRoot().node("dirPath");
                 prefs.put("dirPath", file.getAbsolutePath());
-                Stage gameStage = Main.openWindow("/game.fxml");
+                Stage gameStage = Main.openWindow("game.fxml");
                 if (gameStage != null) {
                     gameStage.show();
                     Stage close = (Stage) this.loadFromFile.getScene().getWindow();
