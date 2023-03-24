@@ -35,7 +35,7 @@ public class LoadingFormController {
         // Create a new quiz from the parameters entered by the user
         int numberOfQuestions = Integer.parseInt(this.numberOfQuestions.getText());
         Category selectedCategory = new Category(this.selectedCategory.getValue());
-        Difficulty selectedDifficulty = Difficulty.valueOf(this.selectedDifficulty.getValue().toUpperCase());
+        Difficulty selectedDifficulty = Difficulty.valueOf(this.selectedDifficulty.getValue());
         Quiz quiz = new Quiz(numberOfQuestions, selectedCategory, selectedDifficulty);
         quiz.setQuestions();
         Alert alert = new Alert(Alert.AlertType.INFORMATION, quiz.toString());

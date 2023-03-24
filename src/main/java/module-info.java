@@ -7,8 +7,10 @@ module com.iaroslaveremeev.quiz {
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.core;
 
-    opens com.iaroslaveremeev.quiz to javafx.fxml;
+    opens com.iaroslaveremeev.quiz to javafx.fxml, com.fasterxml.jackson.databind;
     exports com.iaroslaveremeev.quiz;
+    exports com.iaroslaveremeev.quiz.dto;
+    exports com.iaroslaveremeev.quiz.model;
     exports com.iaroslaveremeev.quiz.controllers;
     opens com.iaroslaveremeev.quiz.controllers to javafx.fxml;
 }
