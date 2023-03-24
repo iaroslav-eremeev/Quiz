@@ -22,8 +22,8 @@ public class QuestionRepository {
     // Method to download the list of questions from the API
     public void downloadQuestions(Quiz quiz) throws IOException {
         try (InputStream inputStream = getData("https://opentdb.com/api.php?" +
-                "&amount=" + quiz.getNumberOfQuestions() + "&category=" + quiz.getCategory().getName() +
-                "&difficulty=" + quiz.getDifficulty().name(), "GET")){
+                "amount=" + quiz.getNumberOfQuestions() + "&category=" + quiz.getCategory().getId() +
+                "&difficulty=" + quiz.getDifficulty().name().toLowerCase(), "GET")){
             ObjectMapper objectMapper = new ObjectMapper();
             ResponseResult<List<Question>> responseResult = objectMapper.readValue(inputStream, new TypeReference<>() {
             });

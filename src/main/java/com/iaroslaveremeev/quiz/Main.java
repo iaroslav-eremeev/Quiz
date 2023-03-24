@@ -8,8 +8,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
 
 public class Main extends Application {
     private static Scene scene;

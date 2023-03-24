@@ -18,10 +18,15 @@ public class LoadingFormController {
     @FXML
     public TextField numberOfQuestions;
     @FXML
-    public ComboBox selectedCategory;
+    public ComboBox<String> selectedCategory;
     @FXML
-    public ComboBox selectedDifficulty;
+    public ComboBox<String> selectedDifficulty;
     Preferences prefs;
+
+    public void initialize(){
+        this.selectedCategory.getItems().addAll("Mythology", "Sports", "Geography", "Art");
+        this.selectedDifficulty.getItems().addAll("Easy", "Medium", "Hard");
+    }
 
     public void startGame(ActionEvent actionEvent) {
     }
@@ -29,10 +34,12 @@ public class LoadingFormController {
     public void saveQuiz(ActionEvent actionEvent) throws IOException {
         // Create a new quiz from the parameters entered by the user
         int numberOfQuestions = Integer.parseInt(this.numberOfQuestions.getText());
-        Category selectedCategory = new Category(this.selectedCategory.getValue().toString());
-        Difficulty selectedDifficulty = Difficulty.valueOf(this.selectedDifficulty.getValue().toString());
+        Category selectedCategory = new Category(this.selectedCategory.getValue());
+        Difficulty selectedDifficulty = Difficulty.valueOf(this.selectedDifficulty.getValue().toUpperCase());
         Quiz quiz = new Quiz(numberOfQuestions, selectedCategory, selectedDifficulty);
         quiz.setQuestions();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, quiz.toString());
+        alert.show();
         // Save the quiz to a file
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(prefs.get("dirPath", "")));
@@ -48,13 +55,13 @@ public class LoadingFormController {
             try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filename))) {
                 objectMapper.writeValue(bufferedWriter, quiz);
             } catch (IOException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Quiz parameters are incorrect");
-                alert.show();
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR, "Quiz parameters are incorrect");
+                errorAlert.show();
             }
             } else throw new FileNotFoundException();
         } catch (FileNotFoundException e) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, "File not found");
-        alert.show();
+        Alert errorAlert = new Alert(Alert.AlertType.ERROR, "File not found");
+        errorAlert.show();
         }
         }
     }
