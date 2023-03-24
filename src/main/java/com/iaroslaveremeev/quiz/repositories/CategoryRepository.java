@@ -2,9 +2,7 @@ package com.iaroslaveremeev.quiz.repositories;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.iaroslaveremeev.quiz.dto.ResponseResult;
 import com.iaroslaveremeev.quiz.model.Category;
-import com.iaroslaveremeev.quiz.model.Question;
 import com.iaroslaveremeev.quiz.util.URLHelper;
 
 import java.io.IOException;

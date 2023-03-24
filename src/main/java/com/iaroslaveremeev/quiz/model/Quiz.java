@@ -4,7 +4,6 @@ import com.iaroslaveremeev.quiz.repositories.QuestionRepository;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 public class Quiz {

@@ -1,12 +1,9 @@
 package com.iaroslaveremeev.quiz.model;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.iaroslaveremeev.quiz.repositories.CategoryRepository;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
+import java.util.Objects;
 
 public class Category {
 
@@ -16,14 +13,10 @@ public class Category {
     public Category() {
     }
 
-    public Category(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
     public Category(String name) throws IOException {
-        List<Category> categories = getCategories();
-        for (Category category : categories) {
+        CategoryRepository categoryRepository = new CategoryRepository();
+        categoryRepository.downloadCategories();
+        for (Category category : categoryRepository.getCategories()) {
             if (category.getName().equals(name)) {
                 this.id = category.getId();
                 this.name = category.getName();
@@ -47,16 +40,24 @@ public class Category {
         this.name = name;
     }
 
-    // Method to download the list of categories from the API
-    public List<Category> getCategories() throws IOException {
-        try (BufferedReader bufferedReader =
-                     new BufferedReader(new FileReader("https://opentdb.com/api_category.php"))) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(bufferedReader, new TypeReference<>() {
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return id == category.id && Objects.equals(name, category.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
