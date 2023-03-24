@@ -21,7 +21,7 @@ public class LoadingFormController {
     public ComboBox<String> selectedCategory;
     @FXML
     public ComboBox<String> selectedDifficulty;
-    Preferences prefs;
+    public Preferences prefs;
 
     public void initialize(){
         this.selectedCategory.getItems().addAll("Mythology", "Sports", "Geography", "Art");
@@ -35,14 +35,14 @@ public class LoadingFormController {
         // Create a new quiz from the parameters entered by the user
         int numberOfQuestions = Integer.parseInt(this.numberOfQuestions.getText());
         Category selectedCategory = new Category(this.selectedCategory.getValue());
-        Difficulty selectedDifficulty = Difficulty.valueOf(this.selectedDifficulty.getValue());
+        Difficulty selectedDifficulty = Difficulty.valueOf(this.selectedDifficulty.getValue().toLowerCase());
         Quiz quiz = new Quiz(numberOfQuestions, selectedCategory, selectedDifficulty);
         quiz.setQuestions();
         Alert alert = new Alert(Alert.AlertType.INFORMATION, quiz.toString());
         alert.show();
         // Save the quiz to a file
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File(prefs.get("dirPath", "")));
+        fileChooser.setInitialDirectory(new File(Preferences.userRoot().node("dirPath").get("dirPath", "")));
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
                 "JSON and CSV files", "*.json", "*.JSON", "*.csv", "*.CSV"));
         File file = fileChooser.showSaveDialog(null);
