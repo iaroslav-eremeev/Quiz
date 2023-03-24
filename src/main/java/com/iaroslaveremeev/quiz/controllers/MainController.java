@@ -29,6 +29,7 @@ public class MainController {
     public void loadFromInternet(ActionEvent actionEvent) throws IOException {
         Stage loadingStage = Main.openWindow("loading.fxml");
         if (loadingStage != null) {
+            loadingStage.setTitle("Loading questions from Internet");
             loadingStage.show();
             Stage close = (Stage) this.fromInternetButton.getScene().getWindow();
             close.close();
@@ -46,6 +47,7 @@ public class MainController {
                 prefs.put("dirPath", file.getAbsolutePath());
                 Stage gameStage = Main.openWindow("game.fxml");
                 if (gameStage != null) {
+                    gameStage.setTitle("Game");
                     gameStage.show();
                     Stage close = (Stage) this.fromFileButton.getScene().getWindow();
                     close.close();
