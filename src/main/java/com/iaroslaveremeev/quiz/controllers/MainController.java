@@ -45,6 +45,7 @@ public class MainController {
         try {
             if (file != null) {
                 prefs.put("dirPath", file.getAbsolutePath());
+                // Запихнуть игру из файла в gameStage
                 Stage gameStage = Main.openWindow("game.fxml");
                 if (gameStage != null) {
                     gameStage.setTitle("Game");
