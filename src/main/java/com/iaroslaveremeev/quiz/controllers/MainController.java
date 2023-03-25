@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
@@ -20,9 +21,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -63,8 +62,7 @@ public class MainController {
                 if (file.getName().endsWith(".json") || file.getName().endsWith(".JSON")) {
                     // Read a Quiz object from json file
                     ObjectMapper objectMapper = new ObjectMapper();
-                    Quiz quizJSON = objectMapper.readValue(file, Quiz.class);
-                    this.quiz = quizJSON;
+                    this.quiz = objectMapper.readValue(file, Quiz.class);
                 }
                 // If CSV file chosen
                 else if (file.getName().endsWith(".csv") || file.getName().endsWith(".CSV")) {
@@ -81,8 +79,8 @@ public class MainController {
                             String[] row = rows.get(i);
                             String question = row[3];
                             String correctAnswer = row[4];
-                            String[] incorrectAnswers = new String[3];
-                            System.arraycopy(row, 5, incorrectAnswers, 0, 3);
+                            String incorrectAnswersString = row[5];
+                            String[] incorrectAnswers = incorrectAnswersString.split("\\|");
                             Question q = new Question(quizCSV.getCategory(), null, quizCSV.getDifficulty(),
                                     question, correctAnswer, incorrectAnswers);
                             questions.add(q);
