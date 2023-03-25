@@ -40,7 +40,7 @@ public class LoadingFormController {
         Category selectedCategory = new Category(this.selectedCategory.getValue());
         Difficulty selectedDifficulty = Difficulty.valueOf(this.selectedDifficulty.getValue().toLowerCase());
         Quiz quiz = new Quiz(numberOfQuestions, selectedCategory, selectedDifficulty, new ArrayList<>());
-        quiz.setQuestions();
+        quiz.downloadQuestions();
         // Save the quiz to a file
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(Preferences.userRoot().node("dirPath").get("dirPath", "")));

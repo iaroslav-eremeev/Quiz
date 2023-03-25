@@ -3,7 +3,6 @@ package com.iaroslaveremeev.quiz.model;
 import com.iaroslaveremeev.quiz.repositories.QuestionRepository;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,6 +12,9 @@ public class Quiz {
     private Category category;
     private Difficulty difficulty;
     private List<Question> questions;
+
+    public Quiz() {
+    }
 
     public Quiz(int numberOfQuestions, Category category, Difficulty difficulty, List<Question> questions) {
         this.numberOfQuestions = numberOfQuestions;
@@ -49,10 +51,13 @@ public class Quiz {
         return questions;
     }
 
-    public void setQuestions() throws IOException {
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+    public void downloadQuestions() throws IOException {
         QuestionRepository questionRepository = new QuestionRepository();
-        questionRepository.downloadQuestions(this);
-        this.questions = questionRepository.getQuestions();
+        this.questions = questionRepository.downloadQuestions(this);
     }
 
     @Override

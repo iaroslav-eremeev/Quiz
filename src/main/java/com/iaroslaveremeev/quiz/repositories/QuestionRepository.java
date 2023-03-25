@@ -18,7 +18,7 @@ public class QuestionRepository {
     }
 
     // Method to download the list of questions from the API
-    public void downloadQuestions(Quiz quiz) throws IOException {
+    public List<Question> downloadQuestions(Quiz quiz) throws IOException {
         try (InputStream inputStream = URLHelper.getData("https://opentdb.com/api.php?" +
                 "amount=" + quiz.getNumberOfQuestions() + "&category=" + quiz.getCategory().getId() +
                 "&difficulty=" + quiz.getDifficulty().name().toLowerCase(), "GET")){
@@ -27,6 +27,7 @@ public class QuestionRepository {
             });
             if (responseResult.getResponse_code() == 0){
                 this.questions = responseResult.getResults();
+                return this.questions;
             }
             else {
                 throw new IOException("There are no questions from this category");
