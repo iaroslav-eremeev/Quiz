@@ -6,6 +6,7 @@ module com.iaroslaveremeev.quiz {
     requires java.prefs;
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.core;
+    requires com.opencsv;
 
     opens com.iaroslaveremeev.quiz to javafx.fxml, com.fasterxml.jackson.databind;
     exports com.iaroslaveremeev.quiz;
