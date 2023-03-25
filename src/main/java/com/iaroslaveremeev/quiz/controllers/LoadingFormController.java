@@ -43,6 +43,9 @@ public class LoadingFormController {
         quiz.downloadQuestions();
         // Save the quiz to a file
         FileChooser fileChooser = new FileChooser();
+        if (prefs != null) {
+            fileChooser.setInitialDirectory(new File(prefs.get("dirPath", "")));
+        }
         fileChooser.setInitialDirectory(new File(Preferences.userRoot().node("dirPath").get("dirPath", "")));
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
                 "JSON files", "*.json", "*.JSON"));
@@ -52,7 +55,7 @@ public class LoadingFormController {
         try {
             if (file != null) {
                 prefs = Preferences.userRoot().node("dirPath");
-                prefs.put("dirPath", file.getAbsolutePath());
+                prefs.put("dirPath", file.getParent());
                 ObjectMapper objectMapper = new ObjectMapper();
                 try {
                     FileWriter fileWriter = new FileWriter(file);
