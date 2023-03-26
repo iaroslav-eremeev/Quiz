@@ -1,6 +1,7 @@
 package com.iaroslaveremeev.quiz.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.iaroslaveremeev.quiz.Main;
 import com.iaroslaveremeev.quiz.model.Category;
 import com.iaroslaveremeev.quiz.model.Difficulty;
 import com.iaroslaveremeev.quiz.model.Question;
@@ -12,6 +13,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import com.opencsv.CSVWriter;
+import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -33,16 +35,29 @@ public class LoadingFormController {
         this.selectedDifficulty.getItems().addAll("Easy", "Medium", "Hard");
     }
 
-    public void startGame(ActionEvent actionEvent) {
-    }
-
-    public void saveQuiz(ActionEvent actionEvent) throws IOException {
-        // Create a new quiz from the parameters entered by the user
+    public Quiz newQuiz() throws IOException {
         int numberOfQuestions = Integer.parseInt(this.numberOfQuestions.getText());
         Category selectedCategory = new Category(this.selectedCategory.getValue());
         Difficulty selectedDifficulty = Difficulty.valueOf(this.selectedDifficulty.getValue().toLowerCase());
         Quiz quiz = new Quiz(numberOfQuestions, selectedCategory, selectedDifficulty, new ArrayList<>());
         quiz.downloadQuestions();
+        return quiz;
+    }
+
+    public void startGame(ActionEvent actionEvent) throws IOException {
+        Quiz quiz = newQuiz();
+        Stage gameStage = Main.openWindow("game.fxml", quiz);
+        if (gameStage != null) {
+            gameStage.setTitle("Game");
+            gameStage.show();
+            Stage close = (Stage) this.numberOfQuestions.getScene().getWindow();
+            close.close();
+        }
+    }
+
+    public void saveQuiz(ActionEvent actionEvent) throws IOException {
+        // Create a new quiz from the parameters entered by the user
+        Quiz quiz = newQuiz();
         // Encrypt the quiz with a random key or with the old one already saved in the preferences
         int key;
         if (keyPrefs == null) {
