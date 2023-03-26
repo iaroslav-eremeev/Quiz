@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iaroslaveremeev.quiz.dto.ResponseResult;
 import com.iaroslaveremeev.quiz.model.Question;
 import com.iaroslaveremeev.quiz.model.Quiz;
-import com.iaroslaveremeev.quiz.util.Encrypt;
 import com.iaroslaveremeev.quiz.util.URLHelper;
+import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,9 +24,12 @@ public class QuestionRepository {
     public List<Question> downloadQuestions(Quiz quiz) throws IOException {
         try (InputStream inputStream = URLHelper.getData("https://opentdb.com/api.php?" +
                 "amount=" + quiz.getNumberOfQuestions() + "&category=" + quiz.getCategory().getId() +
-                "&difficulty=" + quiz.getDifficulty().name().toLowerCase(), "GET")){
+                "&difficulty=" + quiz.getDifficulty().name().toLowerCase() +
+                "&type=multiple", "GET")){
+            assert inputStream != null;
+            String decoded = URLDecoder.decode(IOUtils.toString(inputStream, StandardCharsets.UTF_8), StandardCharsets.UTF_8);
             ObjectMapper objectMapper = new ObjectMapper();
-            ResponseResult<List<Question>> responseResult = objectMapper.readValue(inputStream, new TypeReference<>() {
+            ResponseResult<List<Question>> responseResult = objectMapper.readValue(decoded, new TypeReference<>() {
             });
             if (responseResult.getResponse_code() == 0){
                 this.questions = responseResult.getResults();

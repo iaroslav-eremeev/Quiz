@@ -41,7 +41,6 @@ public class Main extends Application {
         }
     }
 
-    //TODO Вопросы нужно расшифровать с помощью URLDecoder
     //TODO Заняться Гейм-стейджем
 
 }
