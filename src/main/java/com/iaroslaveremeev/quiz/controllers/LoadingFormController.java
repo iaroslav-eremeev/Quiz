@@ -15,6 +15,7 @@ import com.opencsv.CSVWriter;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.prefs.Preferences;
 
 public class LoadingFormController {
@@ -25,6 +26,7 @@ public class LoadingFormController {
     @FXML
     public ComboBox<String> selectedDifficulty;
     public Preferences prefs;
+    public Preferences keyPrefs;
 
     public void initialize(){
         this.selectedCategory.getItems().addAll("Mythology", "Sports", "Geography", "Art");
@@ -41,6 +43,12 @@ public class LoadingFormController {
         Difficulty selectedDifficulty = Difficulty.valueOf(this.selectedDifficulty.getValue().toLowerCase());
         Quiz quiz = new Quiz(numberOfQuestions, selectedCategory, selectedDifficulty, new ArrayList<>());
         quiz.downloadQuestions();
+        // Encrypt the quiz with a random key
+        Random random = new Random();
+        int key = random.nextInt(9) + 1;
+        keyPrefs = Preferences.userRoot().node("key");
+        keyPrefs.put("key", String.valueOf(key));
+        quiz.encryptQuestions(key);
         // Save the quiz to a file
         FileChooser fileChooser = new FileChooser();
         if (prefs != null) {

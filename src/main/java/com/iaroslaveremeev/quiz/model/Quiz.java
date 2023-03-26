@@ -1,8 +1,10 @@
 package com.iaroslaveremeev.quiz.model;
 
 import com.iaroslaveremeev.quiz.repositories.QuestionRepository;
+import com.iaroslaveremeev.quiz.util.Encrypt;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -58,6 +60,26 @@ public class Quiz {
     public void downloadQuestions() throws IOException {
         QuestionRepository questionRepository = new QuestionRepository();
         this.questions = questionRepository.downloadQuestions(this);
+    }
+
+    // Encrypt questions from the quiz
+    public void encryptQuestions(int shift){
+        ArrayList<Question> encryptedQuestions = new ArrayList<>();
+        for (int i = 0; i < questions.size(); i++) {
+            Question encryptedQuestion = Encrypt.encryptQuestion(questions.get(i), shift);
+            encryptedQuestions.add(encryptedQuestion);
+        }
+        this.questions = encryptedQuestions;
+    }
+
+    // Decrypt questions from the quiz
+    public void decryptQuestions(int shift){
+        ArrayList<Question> decryptedQuestions = new ArrayList<>();
+        for (int i = 0; i < questions.size(); i++) {
+            Question decryptedQuestion = Encrypt.decryptQuestion(questions.get(i), shift);
+            decryptedQuestions.add(decryptedQuestion);
+        }
+        this.questions = decryptedQuestions;
     }
 
     @Override

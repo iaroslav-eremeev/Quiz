@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iaroslaveremeev.quiz.dto.ResponseResult;
 import com.iaroslaveremeev.quiz.model.Question;
 import com.iaroslaveremeev.quiz.model.Quiz;
+import com.iaroslaveremeev.quiz.util.Encrypt;
 import com.iaroslaveremeev.quiz.util.URLHelper;
 
 import java.io.IOException;

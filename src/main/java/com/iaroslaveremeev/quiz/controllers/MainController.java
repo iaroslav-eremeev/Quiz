@@ -32,6 +32,7 @@ public class MainController {
     public Button fromInternetButton;
     public CheckBox showCorrectAnswers;
     public Preferences prefs;
+    public Preferences keyPrefs;
     public Quiz quiz;
 
     public void initialize() {
@@ -63,6 +64,8 @@ public class MainController {
                     // Read a Quiz object from json file
                     ObjectMapper objectMapper = new ObjectMapper();
                     this.quiz = objectMapper.readValue(file, Quiz.class);
+                    int decryptKey = Preferences.userRoot().node("key").getInt("key", 0);
+                    this.quiz.decryptQuestions(decryptKey);
                 }
                 // If CSV file chosen
                 else if (file.getName().endsWith(".csv") || file.getName().endsWith(".CSV")) {
@@ -87,6 +90,8 @@ public class MainController {
                         }
                         quizCSV.setQuestions(questions);
                         this.quiz = quizCSV;
+                        int decryptKey = Preferences.userRoot().node("key").getInt("key", 0);
+                        this.quiz.decryptQuestions(decryptKey);
                     } catch (FileNotFoundException e) {e.printStackTrace();}
                 }
             }
