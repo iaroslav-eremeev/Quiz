@@ -5,6 +5,7 @@ import com.iaroslaveremeev.quiz.model.Quiz;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
@@ -39,6 +40,7 @@ public class GameFormController implements ControllerData<Quiz> {
             vBox.setSpacing(10);
             vBox.setPadding(new Insets(20, 20, 20, 20));
             Label questionText = new Label(question.getQuestion());
+            questionText.setWrapText(true);
             vBox.getChildren().add(questionText);
             List<String> options = new ArrayList<>();
             options.add(question.getCorrect_answer());
