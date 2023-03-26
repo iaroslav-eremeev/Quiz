@@ -6,13 +6,9 @@ import com.iaroslaveremeev.quiz.dto.ResponseResult;
 import com.iaroslaveremeev.quiz.model.Question;
 import com.iaroslaveremeev.quiz.model.Quiz;
 import com.iaroslaveremeev.quiz.util.URLHelper;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 
