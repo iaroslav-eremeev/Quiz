@@ -59,6 +59,47 @@ public class GameFormController implements ControllerData<Quiz> {
         }
         Tab resultsTab = new Tab();
         resultsTab.setText("Results");
+        VBox vBox = new VBox();
+        vBox.setSpacing(10);
+        vBox.setPadding(new Insets(20, 20, 20, 20));
+        Button checkButton = new Button("Check");
+        checkButton.setOnAction(event -> {
+            boolean allQuestionsAnswered = true;
+            StringBuilder statisticsBuilder = new StringBuilder();
+            int correctAnswers = 0;
+            int totalQuestions = quiz.getQuestions().size();
+            for (int i = 0; i < totalQuestions; i++) {
+                ToggleGroup answerOptions = answers.get(i);
+                if (answerOptions.getSelectedToggle() == null) {
+                    allQuestionsAnswered = false;
+                    break;
+                } else {
+                    String selectedOption = ((RadioButton) answerOptions.getSelectedToggle()).getText();
+                    Question question = quiz.getQuestions().get(i);
+                    if (selectedOption.equals(question.getCorrect_answer())) {
+                        correctAnswers++;
+                        statisticsBuilder.append("Q").append(i+1).append(": +\n");
+                    } else {
+                        statisticsBuilder.append("Q").append(i+1).append(": -\n");
+                    }
+                }
+            }
+            if (allQuestionsAnswered) {
+                double percentage = (double) correctAnswers / totalQuestions * 100;
+                statisticsBuilder.append("\nTotal: ").append(correctAnswers).append("/").append(totalQuestions)
+                        .append(" (").append(String.format("%.2f", percentage)).append("%)");
+                Label statisticsLabel = new Label(statisticsBuilder.toString());
+                vBox.getChildren().add(statisticsLabel);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Not all questions were answered!");
+                alert.showAndWait();
+            }
+        });
+        vBox.getChildren().add(checkButton);
+        resultsTab.setContent(vBox);
         this.questions.add(resultsTab);
         this.tabPane.getTabs().addAll(this.questions);
     }
