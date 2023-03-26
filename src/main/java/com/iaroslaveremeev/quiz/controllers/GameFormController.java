@@ -7,25 +7,26 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class GameFormController {
+public class GameFormController implements ControllerData<Quiz> {
     @FXML
     private TabPane tabPane;
     private Quiz quiz;
     private List<Tab> questions;
     private List<ToggleGroup> answers;
 
-    public void initialize(){
-
+    @Override
+    public void initData(Quiz value) throws IOException {
+        this.quiz = value;
     }
 
-    public void setQuiz(Quiz quiz) {
-        this.quiz = quiz;
-        makeQuestionTabs();
+    public void initialize(){
+        /*makeQuestionTabs();*/
     }
 
     private void makeQuestionTabs() {

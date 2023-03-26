@@ -43,11 +43,17 @@ public class LoadingFormController {
         Difficulty selectedDifficulty = Difficulty.valueOf(this.selectedDifficulty.getValue().toLowerCase());
         Quiz quiz = new Quiz(numberOfQuestions, selectedCategory, selectedDifficulty, new ArrayList<>());
         quiz.downloadQuestions();
-        // Encrypt the quiz with a random key
-        Random random = new Random();
-        int key = random.nextInt(9) + 1;
-        keyPrefs = Preferences.userRoot().node("key");
-        keyPrefs.put("key", String.valueOf(key));
+        // Encrypt the quiz with a random key or with the old one already saved in the preferences
+        int key;
+        if (keyPrefs == null) {
+            Random random = new Random();
+            key = random.nextInt(9) + 1;
+            keyPrefs = Preferences.userRoot().node("key");
+            keyPrefs.put("key", String.valueOf(key));
+        }
+        else {
+            key = Preferences.userRoot().node("key").getInt("key", 0);
+        }
         quiz.encryptQuestions(key);
         // Save the quiz to a file
         FileChooser fileChooser = new FileChooser();

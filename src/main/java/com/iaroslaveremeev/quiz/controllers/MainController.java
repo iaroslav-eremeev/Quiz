@@ -94,6 +94,13 @@ public class MainController {
                         this.quiz.decryptQuestions(decryptKey);
                     } catch (FileNotFoundException e) {e.printStackTrace();}
                 }
+                Stage gameStage = Main.openWindow("game.fxml", this.quiz);
+                if (gameStage != null) {
+                    gameStage.setTitle("Game");
+                    gameStage.show();
+                    Stage close = (Stage) this.fromFileButton.getScene().getWindow();
+                    close.close();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,14 +109,6 @@ public class MainController {
             alert.setHeaderText("The quiz file is unreadable");
             alert.setContentText("The quiz file you chose is unreadable. Please choose another one.");
             alert.showAndWait();
-            return;
-        }
-        Stage gameStage = Main.openWindow("game.fxml", this.quiz);
-        if (gameStage != null) {
-            gameStage.setTitle("Game");
-            gameStage.show();
-            Stage close = (Stage) this.fromFileButton.getScene().getWindow();
-            close.close();
         }
     }
 }
