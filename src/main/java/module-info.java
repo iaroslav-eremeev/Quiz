@@ -8,6 +8,7 @@ module com.iaroslaveremeev.quiz {
     requires com.fasterxml.jackson.core;
     requires com.opencsv;
     requires org.apache.commons.io;
+    requires org.apache.commons.text;
 
     opens com.iaroslaveremeev.quiz to javafx.fxml, com.fasterxml.jackson.databind;
     exports com.iaroslaveremeev.quiz;

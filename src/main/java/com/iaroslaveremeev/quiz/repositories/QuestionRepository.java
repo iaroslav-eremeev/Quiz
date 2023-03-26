@@ -7,6 +7,7 @@ import com.iaroslaveremeev.quiz.model.Question;
 import com.iaroslaveremeev.quiz.model.Quiz;
 import com.iaroslaveremeev.quiz.util.URLHelper;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,9 +28,9 @@ public class QuestionRepository {
                 "&difficulty=" + quiz.getDifficulty().name().toLowerCase() +
                 "&type=multiple", "GET")){
             assert inputStream != null;
-            String decoded = URLDecoder.decode(IOUtils.toString(inputStream, StandardCharsets.UTF_8), StandardCharsets.UTF_8);
+            /*String decoded = URLDecoder.decode(IOUtils.toString(inputStream, StandardCharsets.UTF_8), StandardCharsets.UTF_8);*/
             ObjectMapper objectMapper = new ObjectMapper();
-            ResponseResult<List<Question>> responseResult = objectMapper.readValue(decoded, new TypeReference<>() {
+            ResponseResult<List<Question>> responseResult = objectMapper.readValue(inputStream, new TypeReference<>() {
             });
             if (responseResult.getResponse_code() == 0){
                 this.questions = responseResult.getResults();

@@ -2,6 +2,7 @@ package com.iaroslaveremeev.quiz.model;
 
 import com.iaroslaveremeev.quiz.repositories.QuestionRepository;
 import com.iaroslaveremeev.quiz.util.Encrypt;
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,6 +61,17 @@ public class Quiz {
     public void downloadQuestions() throws IOException {
         QuestionRepository questionRepository = new QuestionRepository();
         this.questions = questionRepository.downloadQuestions(this);
+        for (Question question : questions) {
+            String unescapedQuestion = StringEscapeUtils.unescapeHtml4(question.getQuestion());
+            question.setQuestion(unescapedQuestion);
+            String unescapedCorrectAnswer = StringEscapeUtils.unescapeHtml4(question.getCorrect_answer());
+            question.setCorrect_answer(unescapedCorrectAnswer);
+            String[] unescapedIncorrectAnswers = new String[question.getIncorrect_answers().length];
+            for (int j = 0; j < question.getIncorrect_answers().length; j++) {
+                unescapedIncorrectAnswers[j] = StringEscapeUtils.unescapeHtml4(question.getIncorrect_answers()[j]);
+            }
+            question.setIncorrect_answers(unescapedIncorrectAnswers);
+        }
     }
 
     // Encrypt questions from the quiz
