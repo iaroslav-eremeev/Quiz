@@ -32,8 +32,8 @@ public class MainController {
     public Button fromInternetButton;
     public CheckBox showCorrectAnswers;
     public Preferences prefs;
-    public Preferences keyPrefs;
     public Quiz quiz;
+    public Preferences quizPrefs;
 
     public void initialize() {
         prefs = Preferences.userRoot().node("dirPath");
@@ -41,7 +41,7 @@ public class MainController {
     }
     @FXML
     public void loadFromInternet(ActionEvent actionEvent) throws IOException {
-        Stage loadingStage = Main.openWindow("loading.fxml");
+        Stage loadingStage = Main.openWindow("loading.fxml", null);
         if (loadingStage != null) {
             loadingStage.setTitle("Loading questions from Internet");
             loadingStage.show();
@@ -104,8 +104,7 @@ public class MainController {
             alert.showAndWait();
             return;
         }
-        // Запихнуть игру из файла в gameStage
-        Stage gameStage = Main.openWindow("game.fxml");
+        Stage gameStage = Main.openWindow("game.fxml", this.quiz);
         if (gameStage != null) {
             gameStage.setTitle("Game");
             gameStage.show();

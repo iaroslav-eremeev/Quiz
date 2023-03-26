@@ -1,5 +1,6 @@
 package com.iaroslaveremeev.quiz;
 
+import com.iaroslaveremeev.quiz.controllers.ControllerData;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,11 +30,15 @@ public class Main extends Application {
         return fxmlLoader.load();
     }
 
-    public static <T> Stage openWindow(String name) throws IOException {
+    public static <T> Stage openWindow(String name, T data) throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource(name));
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setScene(new Scene(loader.load()));
+            if(data != null) {
+                ControllerData<T> controller = loader.getController();
+                controller.initData(data);
+            }
             return stage;
         } catch (Exception e) {
             e.printStackTrace();
