@@ -1,42 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TabPane?>
 
-<TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE"
-         xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="com.iaroslaveremeev.quiz.controllers.GameFormController">
+<TabPane fx:id="tabPane" prefHeight="300.0" prefWidth="400.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iaroslaveremeev.quiz.controllers.GameFormController">
     <tabs>
-        <!-- Add tabs for each question -->
-        <Tab fx:id="questionTab1" text="Question 1">
-            <VBox spacing="10.0" style="-fx-padding: 20px;">
-                <Label fx:id="questionLabel1" text="Question text" style="-fx-font-size: 16px;"/>
-                <RadioButton fx:id="option1RadioButton1" text="Option 1" style="-fx-font-size: 14px;"/>
-                <RadioButton fx:id="option2RadioButton1" text="Option 2" style="-fx-font-size: 14px;"/>
-                <RadioButton fx:id="option3RadioButton1" text="Option 3" style="-fx-font-size: 14px;"/>
-                <RadioButton fx:id="option4RadioButton1" text="Option 4" style="-fx-font-size: 14px;"/>
-            </VBox>
-        </Tab>
-        <Tab fx:id="questionTab2" text="Question 2">
-            <VBox spacing="10.0" style="-fx-padding: 20px;">
-                <Label fx:id="questionLabel2" text="Question text" style="-fx-font-size: 16px;"/>
-                <RadioButton fx:id="option1RadioButton2" text="Option 1" style="-fx-font-size: 14px;"/>
-                <RadioButton fx:id="option2RadioButton2" text="Option 2" style="-fx-font-size: 14px;"/>
-                <RadioButton fx:id="option3RadioButton2" text="Option 3" style="-fx-font-size: 14px;"/>
-                <RadioButton fx:id="option4RadioButton2" text="Option 4" style="-fx-font-size: 14px;"/>
-            </VBox>
-        </Tab>
-        <!-- Add more tabs for each question... -->
-
-        <!-- Add a Results tab -->
-        <Tab fx:id="resultsTab" text="Results">
-            <VBox spacing="10.0" style="-fx-padding: 20px;">
-                <Label text="Results" style="-fx-font-size: 16px;"/>
-                <Button fx:id="submitButton" text="Submit"/>
-            </VBox>
-        </Tab>
     </tabs>
 </TabPane>

@@ -2,6 +2,7 @@ package com.iaroslaveremeev.quiz.controllers;
 
 import com.iaroslaveremeev.quiz.model.Question;
 import com.iaroslaveremeev.quiz.model.Quiz;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -21,19 +22,17 @@ public class GameFormController implements ControllerData<Quiz> {
     private List<ToggleGroup> answers;
 
     @Override
-    public void initData(Quiz value) throws IOException {
-        this.quiz = value;
+    public void initData(Quiz quiz) throws IOException {
+        this.quiz = quiz;
     }
-
-    public void initialize(){
-        /*makeQuestionTabs();*/
+    public void initialize() {
+        Platform.runLater(this::makeQuestionTabs);
     }
-
-    private void makeQuestionTabs() {
-        questions = new ArrayList<>();
-        answers = new ArrayList<>();
-        for (int i = 0; i < quiz.getQuestions().size(); i++) {
-            Question question = quiz.getQuestions().get(i);
+    public void makeQuestionTabs() {
+        this.questions = new ArrayList<>();
+        this.answers = new ArrayList<>();
+        for (int i = 0; i < this.quiz.getQuestions().size(); i++) {
+            Question question = this.quiz.getQuestions().get(i);
             Tab tab = new Tab();
             tab.setText("Question " + (i+1));
             VBox vBox = new VBox();
@@ -54,11 +53,11 @@ public class GameFormController implements ControllerData<Quiz> {
                 vBox.getChildren().add(radioButton);
             }
             tab.setContent(vBox);
-            questions.add(tab);
+            this.questions.add(tab);
         }
         Tab resultsTab = new Tab();
         resultsTab.setText("Results");
-        questions.add(resultsTab);
-        tabPane.getTabs().addAll(questions);
+        this.questions.add(resultsTab);
+        this.tabPane.getTabs().addAll(this.questions);
     }
 }
