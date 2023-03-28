@@ -27,8 +27,7 @@ public class LoadingFormController {
     public ComboBox<String> selectedCategory;
     @FXML
     public ComboBox<String> selectedDifficulty;
-    public Preferences prefs;
-    public Preferences keyPrefs;
+    public Preferences prefs = Preferences.userRoot().node("quiz");
 
     public void initialize(){
         this.selectedCategory.getItems().addAll("Mythology", "Sports", "Geography", "Art");
@@ -60,11 +59,10 @@ public class LoadingFormController {
         Quiz quiz = newQuiz();
         // Encrypt the quiz with a random key or with the old one already saved in the preferences
         int key;
-        if (keyPrefs == null) {
+        if (prefs.get("key", null) == null) {
             Random random = new Random();
             key = random.nextInt(9) + 1;
-            keyPrefs = Preferences.userRoot().node("key");
-            keyPrefs.put("key", String.valueOf(key));
+            prefs.put("key", String.valueOf(key));
         }
         else {
             key = Preferences.userRoot().node("key").getInt("key", 0);
@@ -72,10 +70,11 @@ public class LoadingFormController {
         quiz.encryptQuestions(key);
         // Save the quiz to a file
         FileChooser fileChooser = new FileChooser();
-        if (prefs != null) {
+        if (prefs.get("dirPath", null) != null) {
             fileChooser.setInitialDirectory(new File(prefs.get("dirPath", "")));
         }
-        fileChooser.setInitialDirectory(new File(Preferences.userRoot().node("dirPath").get("dirPath", "")));
+        fileChooser.setInitialDirectory(new File(Preferences.userRoot()
+                .node("dirPath").get("dirPath", "user.home")));
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
                 "JSON files", "*.json", "*.JSON"));
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
@@ -83,7 +82,6 @@ public class LoadingFormController {
         File file = fileChooser.showSaveDialog(null);
         try {
             if (file != null) {
-                prefs = Preferences.userRoot().node("dirPath");
                 prefs.put("dirPath", file.getParent());
                 ObjectMapper objectMapper = new ObjectMapper();
                 try {

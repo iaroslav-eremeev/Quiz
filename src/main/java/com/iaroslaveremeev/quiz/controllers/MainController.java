@@ -28,14 +28,14 @@ public class MainController {
     public CheckBox showCorrectAnswers;
     public Preferences prefs;
     public Quiz quiz;
-    public Preferences quizPrefs;
 
     public void initialize() {
-        prefs = Preferences.userRoot().node("dirPath");
+        prefs = Preferences.userRoot().node("quiz");
         prefs.put("dirPath", String.valueOf(new File(System.getProperty("user.dir"))));
     }
     @FXML
     public void loadFromInternet(ActionEvent actionEvent) throws IOException {
+        prefs.putBoolean("showCorrectAnswer", showCorrectAnswers.isSelected());
         Stage loadingStage = Main.openWindow("loading.fxml", null);
         if (loadingStage != null) {
             loadingStage.setTitle("Loading questions from Internet");
@@ -46,6 +46,7 @@ public class MainController {
     }
 
     public void loadFromFile(ActionEvent actionEvent) throws IOException {
+        prefs.putBoolean("showCorrectAnswer", showCorrectAnswers.isSelected());
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(prefs.get("dirPath", "")));
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files", "*.json", "*.JSON"));

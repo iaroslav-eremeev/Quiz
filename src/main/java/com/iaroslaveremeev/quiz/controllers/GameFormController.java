@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.prefs.Preferences;
 
 public class GameFormController implements ControllerData<Quiz> {
     @FXML
@@ -20,7 +21,7 @@ public class GameFormController implements ControllerData<Quiz> {
     private Quiz quiz;
     private List<Tab> questions = new ArrayList<>();
     private List<ToggleGroup> answers = new ArrayList<>();
-
+    private Preferences prefs = Preferences.userRoot().node("quiz");
     @Override
     public void initData(Quiz quiz) throws IOException {
         this.quiz = quiz;
@@ -78,13 +79,20 @@ public class GameFormController implements ControllerData<Quiz> {
                     allQuestionsAnswered = false;
                     break;
                 } else {
+                    boolean showCorrectAnswer = prefs.getBoolean("showCorrectAnswer", false);
                     String selectedOption = ((RadioButton) answerOptions.getSelectedToggle()).getText();
                     Question question = quiz.getQuestions().get(i);
                     if (selectedOption.equals(question.getCorrect_answer())) {
                         correctAnswers++;
-                        statisticsBuilder.append("Q").append(i+1).append(": +\n");
+                        statisticsBuilder.append("Q").append(i+1).append(": + ");
                     } else {
-                        statisticsBuilder.append("Q").append(i+1).append(": -\n");
+                        statisticsBuilder.append("Q").append(i+1).append(": - ");
+                    }
+                    if (showCorrectAnswer){
+                        statisticsBuilder.append("Correct answer: ").append(question.getCorrect_answer()).append("\n");
+                    }
+                    else {
+                        statisticsBuilder.append("\n");
                     }
                 }
             }
